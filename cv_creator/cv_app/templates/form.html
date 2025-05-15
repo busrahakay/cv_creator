@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>CV Bilgilerini Doldur - Şablon {{ template_id }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .remove-btn {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>CV Oluştur - Şablon {{ template_id }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Fotoğraf Yükleme -->
+        <div class="mb-3">
+            <label for="foto" class="form-label">Fotoğraf Yükle</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
+        </div>
+
+        <!-- Kişisel Bilgiler -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="ad" class="form-label">Ad</label>
+                <input type="text" class="form-control" id="ad" name="ad" required />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="soyad" class="form-label">Soyad</label>
+                <input type="text" class="form-control" id="soyad" name="soyad" required />
+            </div>
+        </div>
+
+        <!-- Meslek -->
+        <div class="mb-3">
+            <label for="meslek" class="form-label">Meslek</label>
+            <input type="text" class="form-control" id="meslek" name="meslek" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-posta</label>
+            <input type="email" class="form-control" id="email" name="email" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="telefon" class="form-label">Telefon</label>
+            <input type="tel" class="form-control" id="telefon" name="telefon" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="adres" class="form-label">Adres</label>
+            <textarea class="form-control" id="adres" name="adres" rows="2"></textarea>
+        </div>
+
+        <!-- Sosyal Medya Hesapları -->
+        <div class="mb-3">
+            <label for="github" class="form-label">GitHub Linki</label>
+            <input type="url" class="form-control" id="github" name="github" placeholder="https://github.com/kullanici" />
+        </div>
+
+        <div class="mb-3">
+            <label for="linkedin" class="form-label">LinkedIn Linki</label>
+            <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/kullanici" />
+        </div>
+
+        <hr>
+
+        <!-- Eğitim -->
+        <h5>Eğitim</h5>
+        <div id="egitim-container" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" name="egitim_ad[]" placeholder="Eğitim Yeri" required />
+                <input type="date" class="form-control" name="baslangic_tarihi[]" placeholder="Başlangıç" required />
+                <input type="date" class="form-control" name="bitis_tarihi[]" placeholder="Bitiş" required />
+                <button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4" onclick="addEgitim()">Eğitim Ekle</button>
+
+        <!-- Deneyim -->
+        <h5>Deneyim</h5>
+        <div id="deneyim-container" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" name="isveren[]" placeholder="İşveren" required />
+                <input type="text" class="form-control" name="gorev[]" placeholder="Görev" required />
+                <input type="date" class="form-control" name="is_baslangic[]" placeholder="Başlangıç" required />
+                <input type="date" class="form-control" name="is_bitis[]" placeholder="Bitiş" required />
+                <button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4" onclick="addDeneyim()">Deneyim Ekle</button>
+
+        <!-- Beceriler -->
+        <h5>Beceriler</h5>
+        <div id="beceri-container" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" name="beceriler[]" placeholder="Beceri" required />
+                <select class="form-select" name="seviye[]">
+                    <option value="iyi">İyi</option>
+                    <option value="orta">Orta</option>
+                    <option value="cok_iyi">Çok İyi</option>
+                </select>
+                <button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4" onclick="addBeceri()">Beceri Ekle</button>
+
+
+        <!-- Dil -->
+        <h5>Dil</h5>
+        <div id="dil-container" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" name="diller[]" placeholder="Dil" required />
+                <select class="form-select" name="seviye[]">
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                </select>
+                <input type="file" class="form-control" name="dil_belge[]" accept=".pdf,.jpg,.png" />
+                <button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4" onclick="addDil()">Dil Ekle</button>
+
+
+        <!-- Sertifikalar -->
+        <h5>Sertifikalar</h5>
+        <div id="sertifika-container" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" name="sertifika_ad[]" placeholder="Sertifika Adı" />
+                
+                <button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-8" onclick="addSertifika()">Sertifika Ekle</button>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success btn-lg w-100">CV Oluştur</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function removeElement(button) {
+        button.parentElement.remove();
+    }
+
+    function addEgitim() {
+        const container = document.getElementById('egitim-container');
+        container.insertAdjacentHTML('beforeend', '<div class="input-group mb-2"><input type="text" class="form-control" name="egitim_ad[]" placeholder="Eğitim Yeri" /><input type="date" class="form-control" name="baslangic_tarihi[]" /><input type="date" class="form-control" name="bitis_tarihi[]" /><button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button></div>');
+    }
+
+    function addDeneyim() {
+        const container = document.getElementById('deneyim-container');
+        container.insertAdjacentHTML('beforeend', '<div class="input-group mb-2"><input type="text" class="form-control" name="isveren[]" placeholder="İşveren" /><input type="text" class="form-control" name="gorev[]" placeholder="Görev" /><input type="date" class="form-control" name="is_baslangic[]" /><input type="date" class="form-control" name="is_bitis[]" /><button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button></div>');
+    }
+
+    function addSertifika() {
+        const container = document.getElementById('sertifika-container');
+        container.insertAdjacentHTML('beforeend', '<div class="input-group mb-2"><input type="text" class="form-control" name="sertifika_ad[]" placeholder="Sertifika Adı" /><input type="file" class="form-control" name="sertifika_dosya[]" accept=".pdf,.jpg,.png" /><button type="button" class="btn btn-danger remove-btn" onclick="removeElement(this)">×</button></div>');
+    }
+</script>
+</body>
+</html>

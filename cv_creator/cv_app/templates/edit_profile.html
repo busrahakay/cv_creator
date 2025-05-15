@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ profile.name }} profili düzenle</title>
+</head>
+<body>
+  <h2>{{ profile.name }} profili düzenle</h2>
+
+  <h3>İş Deneyimi Ekle</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ work_form.as_p }}
+    <button name="add_work" type="submit">Ekle</button>
+  </form>
+
+  <h3>Eğitim Ekle</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ education_form.as_p }}
+    <button name="add_education" type="submit">Ekle</button>
+  </form>
+
+  <h3>Hobi Ekle</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ hobby_form.as_p }}
+    <button name="add_hobby" type="submit">Ekle</button>
+  </form>
+
+  <h3>Mevcut İş Deneyimleri</h3>
+  <ul>
+    {% for work in work_experiences %}
+      <li>{{ work.position }} at {{ work.company }} ({{ work.start_date }} - {% if work.end_date %}{{ work.end_date }}{% else %}Devam Ediyor{% endif %})</li>
+    {% empty %}
+      <li>Henüz eklenmemiş</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Mevcut Eğitimler</h3>
+  <ul>
+    {% for edu in educations %}
+      <li>{{ edu.degree }} at {{ edu.institution }} ({{ edu.start_date }} - {% if edu.end_date %}{{ edu.end_date }}{% else %}Devam Ediyor{% endif %})</li>
+    {% empty %}
+      <li>Henüz eklenmemiş</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Hobiler</h3>
+  <ul>
+    {% for hobby in hobbies %}
+      <li>{{ hobby.name }}</li>
+    {% empty %}
+      <li>Henüz eklenmemiş</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'download_pdf' profile.id %}">PDF indir</a> |
+  <a href="{% url 'download_word' profile.id %}">
