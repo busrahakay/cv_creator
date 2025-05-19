@@ -118,13 +118,42 @@
             background-color: #59359a;
             border-color: #59359a;
         }
+        .header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+        .btn-list {
+            background: linear-gradient(90deg, #6c757d, #495057);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1rem;
+        }
+        .btn-list:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+            color: white;
+        }
     </style>
 </head>
 <body>
 
 <div class="container py-5">
     <div class="template-container">
-        <h2 class="text-center mb-5">CV Şablonu Seçin</h2>
+        <div class="header-section">
+            <h2 class="mb-3">CV Şablonu Seçin</h2>
+            <p class="text-muted mb-4">Size en uygun şablonu seçerek profesyonel CV'nizi oluşturmaya başlayın</p>
+            <a href="{% url 'cv_list' %}" class="btn btn-list">
+                <i class="bi bi-list-ul me-2"></i>CV Listesini Görüntüle
+            </a>
+        </div>
         
         <div class="row">
             {% for template, label in templates %}

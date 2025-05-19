@@ -12,6 +12,9 @@ from django.template.loader import render_to_string, get_template
 from xhtml2pdf import pisa
 import io
 
+def welcome(request):
+    return render(request, 'cvapp/welcome.html')
+
 def index(request):
     return render(request, 'cvapp/index.html', {'templates': CV.TEMPLATE_CHOICES})
 

@@ -61,13 +61,58 @@
             padding: 0.75rem 2rem;
             font-size: 1.1rem;
         }
+        .photo-upload {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border: 2px dashed #ced4da;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .photo-upload:hover {
+            border-color: #0d6efd;
+        }
+        .photo-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-upload .upload-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #6c757d;
+        }
+        .photo-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .photo-preview {
+            display: none;
+        }
+        .photo-upload.has-image .upload-icon {
+            display: none;
+        }
+        .photo-upload.has-image .photo-preview {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
 <div class="container py-5">
     <div class="form-container">
-        <form method="post" id="cvForm">
+        <form method="post" id="cvForm" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.template }}
 
@@ -84,10 +129,18 @@
                     <div class="col-md-6">
                         {{ form.phone }}
                     </div>
-                    <div class="col-md-12">
-                        <label class="form-label">Fotoğraf</label>
-                        {{ form.photo }}
-                        <small class="text-muted">Maksimum dosya boyutu: 2MB. Önerilen boyut: 300x300 piksel</small>
+                    <div class="col-md-12 text-center">
+                        <label class="form-label d-block mb-3">Fotoğraf</label>
+                        <div class="photo-upload" id="photoUpload">
+                            <div class="upload-icon">
+                                <i class="bi bi-camera"></i>
+                            </div>
+                            <div class="photo-preview">
+                                <img id="photoPreview" src="#" alt="Fotoğraf önizleme">
+                            </div>
+                            {{ form.photo }}
+                        </div>
+                        <small class="text-muted d-block mt-2">Maksimum dosya boyutu: 2MB. Önerilen boyut: 300x300 piksel</small>
                     </div>
                 </div>
             </div>
@@ -226,6 +279,43 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="hidden" name="skill_count" value="0">
     `;
     form.insertAdjacentHTML('beforeend', hiddenInputs);
+});
+
+// Fotoğraf önizleme ve kontrol
+document.addEventListener('DOMContentLoaded', function() {
+    const photoUpload = document.getElementById('photoUpload');
+    const photoInput = photoUpload.querySelector('input[type="file"]');
+    const photoPreview = document.getElementById('photoPreview');
+
+    photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        // Dosya boyutu kontrolü (2MB)
+        if (file && file.size > 2 * 1024 * 1024) {
+            alert('Dosya boyutu 2MB\'dan büyük olamaz!');
+            this.value = '';
+            return;
+        }
+
+        // Dosya tipi kontrolü
+        if (file && !file.type.startsWith('image/')) {
+            alert('Lütfen geçerli bir resim dosyası seçin!');
+            this.value = '';
+            return;
+        }
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.src = e.target.result;
+                photoUpload.classList.add('has-image');
+            }
+            reader.readAsDataURL(file);
+        } else {
+            photoPreview.src = '#';
+            photoUpload.classList.remove('has-image');
+        }
+    });
 });
 </script>
 
