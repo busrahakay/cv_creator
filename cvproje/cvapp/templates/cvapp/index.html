@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Şablonu Seç</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .template-card {
+            transition: 0.3s;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .template-preview {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .template1 .template-preview {
+            background-color: #e7f1ff;
+            background-image: linear-gradient(45deg, #0d6efd 25%, transparent 25%),
+                            linear-gradient(-45deg, #0d6efd 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #0d6efd 75%),
+                            linear-gradient(-45deg, transparent 75%, #0d6efd 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .template2 .template-preview {
+            background-color: #e8f5e9;
+            background-image: linear-gradient(45deg, #198754 25%, transparent 25%),
+                            linear-gradient(-45deg, #198754 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #198754 75%),
+                            linear-gradient(-45deg, transparent 75%, #198754 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .template3 .template-preview {
+            background-color: #f3e5f5;
+            background-image: linear-gradient(45deg, #6f42c1 25%, transparent 25%),
+                            linear-gradient(-45deg, #6f42c1 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #6f42c1 75%),
+                            linear-gradient(-45deg, transparent 75%, #6f42c1 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .template-info {
+            padding: 1.5rem;
+            background: white;
+        }
+        .template-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .template-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .btn-template {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 500;
+        }
+        .template1 .btn-template {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .template2 .btn-template {
+            background-color: #198754;
+            border-color: #198754;
+        }
+        .template3 .btn-template {
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">Bir CV Şablonu Seç</h2>
+    <div class="row justify-content-center g-4">
+        {% for template, label in templates %}
+        <div class="col-md-4">
+            <div class="card shadow-sm template-card {{ template }}">
+                <div class="template-preview"></div>
+                <div class="template-info">
+                    <h5 class="template-title">{{ label }}</h5>
+                    <p class="template-description">
+                        {% if template == 'template1' %}
+                            Modern ve profesyonel tasarım. Mavi tonları ile kurumsal bir görünüm.
+                        {% elif template == 'template2' %}
+                            Yeşil tonları ile dinamik ve yenilikçi bir tasarım.
+                        {% else %}
+                            Mor tonları ile yaratıcı ve özgün bir tasarım.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'create_cv' %}?template={{ template }}" class="btn btn-template btn-primary">
+                        Bu Şablonu Kullan
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
