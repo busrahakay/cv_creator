@@ -68,6 +68,30 @@
             60% { transform: rotate(0deg); }
             100% { transform: rotate(0deg); }
         }
+        .features {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .feature-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #0d6efd;
+        }
     </style>
 </head>
 <body>
@@ -79,7 +103,21 @@
             Size özel şablonlarımız ve kullanıcı dostu arayüzümüzle 
             kariyerinize güç katın!
         </p>
-        <a href="{% url 'index' %}" class="btn btn-start">Başlayalım!</a>
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <div>Özel Şablonlar</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📝</div>
+                <div>Kolay Düzenleme</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📤</div>
+                <div>PDF/Word İndir</div>
+            </div>
+        </div>
+        <a href="{% url 'index' %}" class="btn btn-start mt-4">Başla</a>
     </div>
 </body>
 </html> 

@@ -6,7 +6,8 @@ from cvapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.welcome, name='welcome'),
+    path('templates/', views.index, name='index'),
     path('create/', views.create_cv, name='create_cv'),
     path('list/', views.cv_list, name='cv_list'),
     path('preview/<int:cv_id>/', views.preview_cv, name='preview_cv'),

@@ -19,12 +19,17 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             margin-bottom: 2rem;
             position: relative;
+            border: 2px solid transparent;
         }
         .template-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .template-card.selected {
+            border-color: #0d6efd;
         }
         .color-strip {
             height: 8px;
@@ -48,33 +53,21 @@
             background-position: center;
             position: relative;
             margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .template1 .template-preview {
-            background-color: #e7f1ff;
-            background-image: linear-gradient(45deg, #0d6efd 25%, transparent 25%),
-                            linear-gradient(-45deg, #0d6efd 25%, transparent 25%),
-                            linear-gradient(45deg, transparent 75%, #0d6efd 75%),
-                            linear-gradient(-45deg, transparent 75%, #0d6efd 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
         }
         .template2 .template-preview {
-            background-color: #e8f5e9;
-            background-image: linear-gradient(45deg, #198754 25%, transparent 25%),
-                            linear-gradient(-45deg, #198754 25%, transparent 25%),
-                            linear-gradient(45deg, transparent 75%, #198754 75%),
-                            linear-gradient(-45deg, transparent 75%, #198754 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background: linear-gradient(135deg, #198754, #146c43);
         }
         .template3 .template-preview {
-            background-color: #f3e5f5;
-            background-image: linear-gradient(45deg, #6f42c1 25%, transparent 25%),
-                            linear-gradient(-45deg, #6f42c1 25%, transparent 25%),
-                            linear-gradient(45deg, transparent 75%, #6f42c1 75%),
-                            linear-gradient(-45deg, transparent 75%, #6f42c1 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background: linear-gradient(135deg, #6f42c1, #59359a);
         }
         .template-info {
             padding: 1.5rem;
@@ -87,12 +80,14 @@
         .template-description {
             color: #6c757d;
             margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
         .btn-select {
             width: 100%;
             padding: 0.8rem;
             font-size: 1.1rem;
             transition: all 0.3s ease;
+            border-radius: 8px;
         }
         .template1 .btn-select {
             background-color: #0d6efd;
@@ -141,6 +136,22 @@
             box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
             color: white;
         }
+        .template-features {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #6c757d;
+        }
+        .feature-item i {
+            margin-right: 0.5rem;
+            color: #0d6efd;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +160,6 @@
     <div class="template-container">
         <div class="header-section">
             <h2 class="mb-3">CV Şablonu Seçin</h2>
-            <p class="text-muted mb-4">Size en uygun şablonu seçerek profesyonel CV'nizi oluşturmaya başlayın</p>
             <a href="{% url 'cv_list' %}" class="btn btn-list">
                 <i class="bi bi-list-ul me-2"></i>CV Listesini Görüntüle
             </a>
@@ -160,19 +170,35 @@
             <div class="col-md-4">
                 <div class="template-card {{ template }}">
                     <div class="color-strip"></div>
-                    <div class="template-preview"></div>
+                    <div class="template-preview">
+                        {{ label }} Önizleme
+                    </div>
                     <div class="template-info">
                         <h3 class="template-title">{{ label }}</h3>
                         <p class="template-description">
                             {% if template == 'template1' %}
-                                 Mavi tonları ile Modern ve profesyonel tasarım.
+                                Mavi tonları ile modern ve profesyonel tasarım.
                             {% elif template == 'template2' %}
                                 Yeşil tonları ile dinamik ve yenilikçi bir tasarım.
                             {% else %}
                                 Mor tonları ile yaratıcı ve özgün bir tasarım.
                             {% endif %}
                         </p>
-                        <a href="{% url 'create_cv' %}?template={{ template }}" class="btn btn-select">
+                        <div class="template-features">
+                            <div class="feature-item">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>Profesyonel Tasarım</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>PDF/Word Desteği</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>Kolay Düzenleme</span>
+                            </div>
+                        </div>
+                        <a href="{% url 'create_cv' %}?template={{ template }}" class="btn btn-select mt-3">
                             Bu Şablonu Seç
                         </a>
                     </div>
