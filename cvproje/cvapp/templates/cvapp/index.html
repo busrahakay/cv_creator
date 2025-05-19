@@ -10,21 +10,44 @@
             background: #f4f6f9;
             font-family: 'Segoe UI', sans-serif;
         }
+        .template-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
         .template-card {
-            transition: 0.3s;
-            border: none;
+            background: white;
             border-radius: 15px;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
+            position: relative;
         }
         .template-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .color-strip {
+            height: 8px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .template1 .color-strip {
+            background: linear-gradient(90deg, #0d6efd, #0a58ca);
+        }
+        .template2 .color-strip {
+            background: linear-gradient(90deg, #198754, #146c43);
+        }
+        .template3 .color-strip {
+            background: linear-gradient(90deg, #6f42c1, #59359a);
         }
         .template-preview {
-            height: 300px;
+            height: 400px;
             background-size: cover;
             background-position: center;
             position: relative;
+            margin-top: 8px;
         }
         .template1 .template-preview {
             background-color: #e7f1ff;
@@ -55,64 +78,79 @@
         }
         .template-info {
             padding: 1.5rem;
-            background: white;
         }
         .template-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
         .template-description {
             color: #6c757d;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
-        .btn-template {
+        .btn-select {
             width: 100%;
-            padding: 0.75rem;
-            font-weight: 500;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
         }
-        .template1 .btn-template {
+        .template1 .btn-select {
             background-color: #0d6efd;
             border-color: #0d6efd;
         }
-        .template2 .btn-template {
+        .template1 .btn-select:hover {
+            background-color: #0a58ca;
+            border-color: #0a58ca;
+        }
+        .template2 .btn-select {
             background-color: #198754;
             border-color: #198754;
         }
-        .template3 .btn-template {
+        .template2 .btn-select:hover {
+            background-color: #146c43;
+            border-color: #146c43;
+        }
+        .template3 .btn-select {
             background-color: #6f42c1;
             border-color: #6f42c1;
+        }
+        .template3 .btn-select:hover {
+            background-color: #59359a;
+            border-color: #59359a;
         }
     </style>
 </head>
 <body>
 
 <div class="container py-5">
-    <h2 class="text-center mb-5">Bir CV Şablonu Seç</h2>
-    <div class="row justify-content-center g-4">
-        {% for template, label in templates %}
-        <div class="col-md-4">
-            <div class="card shadow-sm template-card {{ template }}">
-                <div class="template-preview"></div>
-                <div class="template-info">
-                    <h5 class="template-title">{{ label }}</h5>
-                    <p class="template-description">
-                        {% if template == 'template1' %}
-                            Modern ve profesyonel tasarım. Mavi tonları ile kurumsal bir görünüm.
-                        {% elif template == 'template2' %}
-                            Yeşil tonları ile dinamik ve yenilikçi bir tasarım.
-                        {% else %}
-                            Mor tonları ile yaratıcı ve özgün bir tasarım.
-                        {% endif %}
-                    </p>
-                    <a href="{% url 'create_cv' %}?template={{ template }}" class="btn btn-template btn-primary">
-                        Bu Şablonu Kullan
-                    </a>
+    <div class="template-container">
+        <h2 class="text-center mb-5">CV Şablonu Seçin</h2>
+        
+        <div class="row">
+            {% for template, label in templates %}
+            <div class="col-md-4">
+                <div class="template-card {{ template }}">
+                    <div class="color-strip"></div>
+                    <div class="template-preview"></div>
+                    <div class="template-info">
+                        <h3 class="template-title">{{ label }}</h3>
+                        <p class="template-description">
+                            {% if template == 'template1' %}
+                                 Mavi tonları ile Modern ve profesyonel tasarım.
+                            {% elif template == 'template2' %}
+                                Yeşil tonları ile dinamik ve yenilikçi bir tasarım.
+                            {% else %}
+                                Mor tonları ile yaratıcı ve özgün bir tasarım.
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'create_cv' %}?template={{ template }}" class="btn btn-select">
+                            Bu Şablonu Seç
+                        </a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 

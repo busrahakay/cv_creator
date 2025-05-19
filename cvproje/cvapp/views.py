@@ -78,6 +78,20 @@ def preview_cv(request, cv_id):
     if cv.photo:
         cv.photo_url = request.build_absolute_uri(cv.photo.url)
     
+    # Şablon numarasını al (template1 -> 1)
+    template_number = cv.template.replace('template', '')
+    
+    # Şablon rengini belirle
+    if cv.template == 'template1':
+        cv.template_color = '#0d6efd'
+        cv.template_gradient = 'linear-gradient(90deg, #0d6efd, #0a58ca)'
+    elif cv.template == 'template2':
+        cv.template_color = '#198754'
+        cv.template_gradient = 'linear-gradient(90deg, #198754, #146c43)'
+    else:
+        cv.template_color = '#6f42c1'
+        cv.template_gradient = 'linear-gradient(90deg, #6f42c1, #59359a)'
+    
     # JSON verilerini düzenle
     try:
         if cv.education and cv.education.strip():
@@ -242,6 +256,18 @@ def download_cv_word(request, cv_id):
     heading = doc.add_heading(cv.name, 0)
     heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
     
+    # Şablon rengini belirle
+    if cv.template == 'template1':
+        color = RGBColor(13, 110, 253)  # #0d6efd
+    elif cv.template == 'template2':
+        color = RGBColor(25, 135, 84)   # #198754
+    else:
+        color = RGBColor(111, 66, 193)  # #6f42c1
+    
+    # Başlık rengini ayarla
+    for run in heading.runs:
+        run.font.color.rgb = color
+    
     # Fotoğraf ekle
     if cv.photo:
         try:
@@ -258,15 +284,18 @@ def download_cv_word(request, cv_id):
     contact.add_run(f'Telefon: {cv.phone}')
     
     # Eğitim
-    doc.add_heading('Eğitim', level=1)
+    education_heading = doc.add_heading('Eğitim', level=1)
+    education_heading.runs[0].font.color.rgb = color
     doc.add_paragraph(education)
     
     # Deneyim
-    doc.add_heading('Deneyim', level=1)
+    experience_heading = doc.add_heading('Deneyim', level=1)
+    experience_heading.runs[0].font.color.rgb = color
     doc.add_paragraph(experience)
     
     # Beceriler
-    doc.add_heading('Beceriler', level=1)
+    skills_heading = doc.add_heading('Beceriler', level=1)
+    skills_heading.runs[0].font.color.rgb = color
     doc.add_paragraph(skills)
     
     # Belgeyi kaydet

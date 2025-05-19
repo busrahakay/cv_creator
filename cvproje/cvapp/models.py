@@ -2,19 +2,19 @@ from django.db import models
 
 class CV(models.Model):
     TEMPLATE_CHOICES = [
-        ('template1', 'Şablon 1'),
-        ('template2', 'Şablon 2'),
-        ('template3', 'Şablon 3'),
+        ('template1', 'Modern'),
+        ('template2', 'Dinamik'),
+        ('template3', 'Yaratıcı'),
     ]
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     photo = models.ImageField(upload_to='cv_photos/', null=True, blank=True)
     template = models.CharField(max_length=20, choices=TEMPLATE_CHOICES, default='template1')
-    education = models.TextField(blank=True)
-    experience = models.TextField(blank=True)
-    skills = models.TextField(blank=True)
+    education = models.TextField()
+    experience = models.TextField()
+    skills = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

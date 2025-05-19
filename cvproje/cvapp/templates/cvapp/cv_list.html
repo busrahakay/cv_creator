@@ -20,6 +20,25 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .cv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+        }
+        .template1::before {
+            background: linear-gradient(to bottom, #0d6efd, #0a58ca);
+        }
+        .template2::before {
+            background: linear-gradient(to bottom, #198754, #146c43);
+        }
+        .template3::before {
+            background: linear-gradient(to bottom, #6f42c1, #59359a);
         }
         .cv-header {
             border-bottom: 2px solid #e9ecef;
@@ -39,11 +58,19 @@
             margin-bottom: 1.5rem;
         }
         .cv-section-title {
-            color: #2c3e50;
             font-size: 1.3rem;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #e9ecef;
+        }
+        .template1 .cv-section-title {
+            color: #0d6efd;
+        }
+        .template2 .cv-section-title {
+            color: #198754;
+        }
+        .template3 .cv-section-title {
+            color: #6f42c1;
         }
         .cv-content {
             color: #495057;
@@ -58,6 +85,18 @@
         .btn-action {
             margin-right: 0.5rem;
         }
+        .template1 .btn-preview {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .template2 .btn-preview {
+            background-color: #198754;
+            border-color: #198754;
+        }
+        .template3 .btn-preview {
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+        }
     </style>
 </head>
 <body>
@@ -66,13 +105,13 @@
     <div class="cv-container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">CV Listesi</h2>
-            <a href="{% url 'create_cv' %}" class="btn btn-primary">
+            <a href="{% url 'index' %}" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-2"></i>Yeni CV Oluştur
             </a>
         </div>
 
         {% for cv in cvs %}
-        <div class="cv-card">
+        <div class="cv-card {{ cv.template }}">
             <div class="cv-header">
                 <div class="row align-items-center">
                     <div class="col-md-2">
@@ -116,7 +155,7 @@
             </div>
 
             <div class="cv-actions">
-                <a href="{% url 'preview_cv' cv.id %}" class="btn btn-info btn-action">
+                <a href="{% url 'preview_cv' cv.id %}" class="btn btn-preview btn-action text-white">
                     <i class="bi bi-eye me-2"></i>Önizle
                 </a>
                 <a href="{% url 'download_cv_pdf' cv.id %}" class="btn btn-success btn-action">
