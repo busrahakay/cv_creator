@@ -11,6 +11,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from django.template.loader import render_to_string, get_template
 from xhtml2pdf import pisa
 import io
+from utils.pdf_generator import create_pdf_with_turkish
 
 def welcome(request):
     return render(request, 'cvapp/welcome.html')
@@ -172,7 +173,12 @@ def format_json_data(json_data):
             formatted_text = ""
             for item in data:
                 if isinstance(item, dict):
-                    formatted_text += "\n".join(f"{value}" for value in item.values() if value) + "\n\n"
+                    # Her bir öğe için düzenli format
+                    item_text = ""
+                    for key, value in item.items():
+                        if value:
+                            item_text += f"{value}\n"
+                    formatted_text += item_text + "\n"
             return formatted_text.strip()
         return json_data
     except:
@@ -181,46 +187,34 @@ def format_json_data(json_data):
 def download_cv_pdf(request, cv_id):
     cv = get_object_or_404(CV, id=cv_id)
     
-    # Fotoğraf URL'sini oluştur
-    if cv.photo:
-        cv.photo_url = request.build_absolute_uri(cv.photo.url)
-    
     # JSON verilerini formatla
     education = format_json_data(cv.education)
     experience = format_json_data(cv.experience)
     skills = format_json_data(cv.skills)
     
-    # Şablon numarasını al (template1 -> 1)
-    template_number = cv.template.replace('template', '')
+    # PDF içeriğini oluştur
+    content = f"""
+    EĞİTİM
+    {education}
+
+    DENEYİM
+    {experience}
+
+    BECERİLER
+    {skills}
+    """
     
-    template_name = f'template{template_number}_pdf.html'
-    template = get_template(f'cvapp/templates/{template_name}')
+    # PDF oluştur
+    buffer = io.BytesIO()
+    create_pdf_with_turkish(content, buffer, cv_data=cv)
+    pdf = buffer.getvalue()
+    buffer.close()
     
-    context = {
-        'cv': cv,
-        'education': education,
-        'experience': experience,
-        'skills': skills
-    }
-    
-    html = template.render(context)
+    # PDF'i response olarak döndür
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{cv.name}_CV.pdf"'
+    response.write(pdf)
     
-    # PDF oluşturma seçenekleri
-    pdf_options = {
-        'encoding': 'UTF-8',
-        'page-size': 'A4',
-        'margin-top': '20mm',
-        'margin-right': '20mm',
-        'margin-bottom': '20mm',
-        'margin-left': '20mm',
-        'enable-local-file-access': True
-    }
-    
-    pisa_status = pisa.CreatePDF(html, dest=response, **pdf_options)
-    if pisa_status.err:
-        return HttpResponse('PDF oluşturulurken bir hata oluştu')
     return response
 
 def download_cv_word(request, cv_id):
