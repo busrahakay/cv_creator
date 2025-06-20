@@ -39,3 +39,24 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+
+---
+
+```markdown
+### Başlangıç Ekranı
+![Başlangıç Ekranı](interface_images/başlangıç_ekranı.png)
+
+### Şablon Seçim Ekranı
+![Şablon Seçim Ekranı](interface_images/şablon_seçimi.png)
+
+### Bİlgi Giriş Ekranı
+![Bİlgi Giriş Ekranı](interface_images/bilgi_giriş.png)
+
+### CV Önizleme Ekranı
+![CV Önizleme Ekranı](interface_images/önizleme_sayfası.png)
+
+### CV Lİstesi Ekranı
+![CV Lİstesi Ekranı](interface_images/cv_listesi.png)
+
+### PDF Çıktısı
+![PDF Çıktısı](interface_images/pdf_çıktısı.png)
