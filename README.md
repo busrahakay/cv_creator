@@ -39,4 +39,4 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-🔧 Uygulama arayüzü ve işlevi görselleri için interface_images dosyasını inceleyin!
+🔧 Uygulama arayüz görselleri için interface_images dosyasını inceleyin!
