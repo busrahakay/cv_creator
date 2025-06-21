@@ -22,7 +22,6 @@ Bilgilerinizi girin, şablon seçin, tek tıkla PDF veya Word çıktısını ind
 🗃️ **PostgreSQL** – Güvenilir ve ölçeklenebilir veritabanı  
 🎨 **HTML + CSS** – Sade ve işlevsel arayüz  
 🧾 **xhtml2pdf** – PDF ve Word çıktıları oluşturma  
-🔄 (Planlı) **React** ile dinamik frontend geçişi
 
 ---
 
