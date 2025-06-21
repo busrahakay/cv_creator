@@ -1,10 +1,10 @@
-🎓 CV Oluşturma Web Uygulaması  
+# 🎓 CV Oluşturma Web Uygulaması  
 Kendi özgeçmişinizi oluşturmak hiç bu kadar kolay olmamıştı.  
 Bilgilerinizi girin, şablon seçin, tek tıkla PDF veya Word çıktısını indirin.
 
 ---
 
-✨ Özellikler
+## ✨ Özellikler
 
 🧾 Kişisel Bilgi, Eğitim, Deneyim ve Beceri Girişi  
 🎨 Farklı CV Şablonları Arasından Seçim  
@@ -16,7 +16,7 @@ Bilgilerinizi girin, şablon seçin, tek tıkla PDF veya Word çıktısını ind
 
 ---
 
-📦 Kullanılan Teknolojiler
+## 📦 Kullanılan Teknolojiler
 
 🧠 **Django** – Python tabanlı web framework  
 🗃️ **PostgreSQL** – Güvenilir ve ölçeklenebilir veritabanı  
@@ -25,11 +25,11 @@ Bilgilerinizi girin, şablon seçin, tek tıkla PDF veya Word çıktısını ind
 
 ---
 
-🔧 Uygulama arayüzü ve işlevi görselleri için interface_images dosyasını inceleyin!
+## 🔧 Uygulama arayüzü ve işlevi görselleri için interface_images dosyasını inceleyin!
 
 ---
 
-🚀 Kurulum (Local Geliştirme İçin)
+## 🚀 Kurulum (Local Geliştirme İçin)
 
 Projeyi kendi bilgisayarınızda çalıştırmak için:
 
