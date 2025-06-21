@@ -25,10 +25,6 @@ Bilgilerinizi girin, şablon seçin, tek tıkla PDF veya Word çıktısını ind
 
 ---
 
-## 🔧 Uygulama arayüzü ve işlevi görselleri için interface_images dosyasını inceleyin!
-
----
-
 ## 🚀 Kurulum (Local Geliştirme İçin)
 
 Projeyi kendi bilgisayarınızda çalıştırmak için:
@@ -42,3 +38,5 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+```
+🔧 Uygulama arayüzü ve işlevi görselleri için interface_images dosyasını inceleyin!
